@@ -20,5 +20,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 //Webhook
 Route::middleware('throttle:60,1')->group(function () {
-    Route::post('/webhook', [App\Http\Controllers\WebhookController::class, 'webhook'])->name('webhook');
+    Route::post('/webhook', [App\Http\Controllers\WebhookController::class, 'webhook'])->name('application-one');
 });

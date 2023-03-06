@@ -2,13 +2,14 @@
 
 namespace App\Services;
 
+use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class WebhookService {
 
-    public function webHook($request)
+    public function webhook($request)
     {
         try {
             $response = Http::get('http://localhost:8000/servers/' . $request->data['server'] . '/sites');
@@ -20,11 +21,10 @@ class WebhookService {
 
             return response()->json(['ok' => 'ok'], 200);
 
-        } catch (\Throwable $error) {
-            Log::warning("Ops:" . $error);
-    
-            return $error;
+        } catch (RequestException $e) {
+            Log::error('HTTP Request Failed', ['message' => $e->getMessage()]);
         }
+
     }
 
     public function deploy($sites, $request)
@@ -46,11 +46,10 @@ class WebhookService {
                             dump("email sent to users sucessfully");
                             #send email for clients
                         };
-                } catch (\Throwable $error) {
-                    Log::warning("Ops:" . $error);
-            
-                    return $error;
+                } catch (RequestException $e) {
+                    Log::error('HTTP Request Failed - Deploy', ['message' => $e->getMessage()]);
                 }
+                break;
             }
         }
     }
