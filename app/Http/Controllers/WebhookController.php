@@ -20,7 +20,7 @@ class WebhookController extends Controller
 
             $this->deploy($response, $request);
 
-            return response()->json(['ok' => 'ok'],200);
+            return response()->json(['ok' => 'Deploy finished'], 200);
 
         } catch (RequestException $e) {
             Log::error('HTTP Request Failed', ['message' => $e->getMessage()]);
@@ -44,7 +44,7 @@ class WebhookController extends Controller
                     #if success
                     $responseDeploy = json_decode($responseDeploy->body());
                     if($responseDeploy->sucess){
-                        dump("email sent to users sucessfully");
+                        return "email sent to users sucessfully";
                         #send email for clients
                     };
                 } catch (RequestException $e) {
