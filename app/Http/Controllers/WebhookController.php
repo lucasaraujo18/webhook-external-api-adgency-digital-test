@@ -13,7 +13,7 @@ class WebhookController extends Controller
     {
         try {
 
-            $response = Http::get('http://localhost:8000/api/servers/' .$request->data['server'] . '/sites');
+            $response = Http::withHeaders(['Content-Type' => 'application/json'])->get('http://localhost:8000/servers/' .$request->data['server'] . '/sites');
 
             $response->throw();
             $response = json_decode($response->body());
